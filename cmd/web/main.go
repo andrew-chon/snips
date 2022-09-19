@@ -5,15 +5,15 @@ import (
 	"net/http"
 )
 
-// Define a home handler function which writes a byte slice containing
-// "Hello from snips" as the response body
-func home(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Hello from snips"))
-}
-
 func main() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", home)
+	mux.HandleFunc("/snippet", showSnippet)
+	mux.HandleFunc("/snippet/create", createSnippet)
+
+	fileServer := http.FileServer(http.Dir("./ui/static/"))
+
+	mux.Handle("/static/", http.StripPrefix("/static", fileServer))
 
 	log.Println("Starting server on :4000")
 	err := http.ListenAndServe(":4000", mux)
