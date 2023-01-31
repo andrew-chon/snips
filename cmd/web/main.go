@@ -1,6 +1,7 @@
 package main
 
 import (
+	"andrew-chon/snips/internal/models"
 	"database/sql"
 	"flag"
 	"log"
@@ -14,12 +15,13 @@ import (
 type application struct {
 	errorLog *log.Logger
 	infoLog  *log.Logger
+	snippets *models.SnippetModel
 }
 
 func main() {
 	// Parse cli flags
 	addr := flag.String("addr", ":4000", "HTTP network address")
-	dsn := flag.String("dsn", "web:andrew@tcp(192.168.1.100:3306)/snippetbox?parseTime=true", "MySQL data source name")
+	dsn := flag.String("dsn", "web:andrew@/snippetbox?parseTime=true", "MySQL data source name")
 	flag.Parse()
 
 	// Create logger for writing information
@@ -36,6 +38,7 @@ func main() {
 	app := &application{
 		errorLog: errorLog,
 		infoLog:  infoLog,
+		snippets: &models.SnippetModel{DB: db},
 	}
 
 	// Initialize new http.Server struct to use the new error logger
