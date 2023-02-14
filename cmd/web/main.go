@@ -25,7 +25,7 @@ type application struct {
 func main() {
 	// Parse cli flags
 	addr := flag.String("addr", ":4000", "HTTP network address")
-	dsn := flag.String("dsn", "web:andrew@/snippetbox?parseTime=true", "MySQL data source name")
+	dsn := flag.String("dsn", "andrew:andrewiscool@tcp(192.168.1.100:3306)/snippetbox?parseTime=true", "MySQL data source name")
 	flag.Parse()
 
 	// Create logger for writing information
